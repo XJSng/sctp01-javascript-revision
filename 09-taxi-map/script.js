@@ -20,7 +20,8 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // const bedok85Marker = L.marker([1.3320, 103.9387]);
 // bedok85Marker.addTo(mapObject);
 // bedok85Marker.bindPopup(`<h1>Bedok 85</h1>`)
-
+const aMarker = L.marker([1.2834, 103.8607]);
+aMarker.addTo(mapObject);
 // // add a circle to Bukit Timah (1.3294° N, 103.8021° E)
 // const greenCircle = L.circle([1.3294, 103.8021], {
 //     radius: 1000,
@@ -70,7 +71,7 @@ for (let c of countryData){
     const lng = c.latlng[1]
     const latLng = [lat,lng]
     const countryMarker = L.marker(latLng);
-    countryMarker.bindPopup(`<h1>${c.name.common}</h1>`)
+    countryMarker.bindPopup(`<h3>${c.name.common}</h3>`)
     countryMarker.addTo(markerClusterLayer)
 }
 }
