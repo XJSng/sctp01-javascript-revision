@@ -16,22 +16,22 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(mapObject);
 
-// add a marker at Bedok 85 (1.3320° N, 103.9387° E)
-const bedok85Marker = L.marker([1.3320, 103.9387]);
-bedok85Marker.addTo(mapObject);
-bedok85Marker.bindPopup(`<h1>Bedok 85</h1>`)
+// // add a marker at Bedok 85 (1.3320° N, 103.9387° E)
+// const bedok85Marker = L.marker([1.3320, 103.9387]);
+// bedok85Marker.addTo(mapObject);
+// bedok85Marker.bindPopup(`<h1>Bedok 85</h1>`)
 
-// add a circle to Bukit Timah (1.3294° N, 103.8021° E)
-const greenCircle = L.circle([1.3294, 103.8021], {
-    radius: 1000,
-    color: "green",
-    fillColor: "darkGreen",
-    opacity: 0.5
-})
-greenCircle.addTo(mapObject);
-greenCircle.addEventListener("click", function(){
-    alert("Hello I am at Bukit Timah");
-})
+// // add a circle to Bukit Timah (1.3294° N, 103.8021° E)
+// const greenCircle = L.circle([1.3294, 103.8021], {
+//     radius: 1000,
+//     color: "green",
+//     fillColor: "darkGreen",
+//     opacity: 0.5
+// })
+// greenCircle.addTo(mapObject);
+// greenCircle.addEventListener("click", function(){
+//     alert("Hello I am at Bukit Timah");
+// })
 
 // A layer group is a group of layers
 // It allows us to put layers into a group so that
@@ -57,12 +57,33 @@ async function renderTaxiMarkers(taxiData) {
 
 }
 
-document.addEventListener("DOMContentLoaded", async function(){
+// fetch countries data
+async function loadCountries() {
+    const response = await axios.get(`https://restcountries.com/v3.1/all`)
+    return response.data
+}
+
+async function renderCountries(countryData){
+markerClusterLayer.clearLayers()
+for (let c of countryData){
+    const lat = c.latlng[0]
+    const lng = c.latlng[1]
+    const latLng = [lat,lng]
+    const countryMarker = L.marker(latLng);
+    countryMarker.bindPopup(`<h1>${c.name.common}</h1>`)
+    countryMarker.addTo(markerClusterLayer)
+}
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
     const taxiData = await loadTaxi();
     renderTaxiMarkers(taxiData);
-
-    setInterval(async function(){
+    const countryData = await loadCountries();
+    renderCountries(countryData)
+    setInterval(async function () {
         const taxiData = await loadTaxi();
         renderTaxiMarkers(taxiData);
+        const countryData = await loadCountries()
+        renderCountries(countryData)
     }, 60000);
 })

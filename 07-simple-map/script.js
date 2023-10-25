@@ -16,10 +16,16 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(mapObject);
 
+//add a marker at Old Airport Road(Latitude: 1.30757. Longitude: 103.885461)
+const oldAirportMarker = L.marker([1.30757,103.885461]);
+oldAirportMarker.addTo(mapObject);
+oldAirportMarker.bindPopup(`<h2>Old Airport Road</h2>`)
+
+
 // add a marker at Bedok 85 (1.3320° N, 103.9387° E)
 const bedok85Marker = L.marker([1.3320, 103.9387]);
 bedok85Marker.addTo(mapObject);
-mapObject.flyTo([1.3320, 103.9387]);
+// mapObject.flyTo([1.3320, 103.9387]);
 bedok85Marker.bindPopup(`<h1>Bedok 85</h1>`)
 
 // add a circle to Bukit Timah (1.3294° N, 103.8021° E)
