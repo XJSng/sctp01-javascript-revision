@@ -29,6 +29,11 @@ const queenswayCanopy = L.circle([1.2904,103.8004], {
     radius: 500
 }).addTo(mapObject)
 
+const sameplePoly = L.polygon([
+    [1.4043, 103.7930],
+    [1.2583, 103.8205],
+    [1.3602,103.9898]
+]).addTo(mapObject)
 
 // async function loadCarparkData(){
 //     let response = await axios.get`https://data.gov.sg/collections/{collection_id}/view`
