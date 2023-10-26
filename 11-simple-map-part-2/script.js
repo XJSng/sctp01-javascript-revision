@@ -7,6 +7,12 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(mapObject);
 
+
+// Add marker cluster layer (MUST be placed below the tileLayer)
+const markerClusterLayer = L.markerClusterGroup()
+markerClusterLayer.addTo(mapObject)
+
+
 // lets add a simple marker on the zoo
 const zooMarker = L.marker([1.4043, 103.7930]);
 zooMarker.addTo(mapObject);
@@ -37,13 +43,42 @@ const sameplePoly = L.polygon([
     [1.3602,103.9898]
 ]).addTo(mapObject)
 
-// async function loadCarparkData(){
-//     let response = await axios.get`https://data.gov.sg/collections/{collection_id}/view`
-//     return response.data
+// marker clustering example
+// let's create a weather map
+async function loadWeatherData(){
+    const response = await axios.get`https://api.data.gov.sg/v1/environment/2-hour-weather-forecast`
+    let weatherSpots = response.data.area_metadata
+    return weatherSpots
+}
+
+//render the weather map on leaflet
+async function renderWeatherData(weatherData){
+    markerClusterLayer.clearLayers()
+    for (let w of weatherData) {
+        const lat = w.label_location.latitude
+        const lng = w.label_location.longitude
+        const latLng = [lat,lng]
+        console.log(latLng)
+        const weatherMarker = L.marker(latLng)
+        weatherMarker.addTo(markerClusterLayer)
+    }
+}
+
+
+// async function loadCarparkAvailability(){
+//     let response = await axios.get`https://api.data.gov.sg/v1/transport/carpark-availability`
+//     const carparkData = response.data.items[0].carpark_data
+//     // return carparkData
+// }
+// // function that renders carpark data as markers
+// async function renderCarparkAvailability(){
+
 // }
 
 
 // Loads once the DOM is loaded, you can add your APIs below
-// document.addEventListener("DOMContentLoaded", async function(){
-
-// })
+document.addEventListener("DOMContentLoaded", async function(){
+    // await loadCarparkData()
+    const weatherData = await loadWeatherData()
+    renderWeatherData(weatherData)
+})
