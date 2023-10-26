@@ -10,8 +10,24 @@ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 
 // lets add a simple marker on the zoo
-const marker = L.marker([1.4043, 103.7930]);
-marker.addTo(mapObject);
+const zooMarker = L.marker([1.4043, 103.7930]);
+zooMarker.addTo(mapObject);
+
+const seaAquarium = L.marker([1.2583, 103.8205]).addTo(mapObject);
+const jewel = L.marker([1.3602,103.9898]).addTo(mapObject);
+
+const fairfieldPrimary = L.circle([1.3005,103.7849], {
+    color: 'orange',
+    fillColor: 'orange',
+    fillOpacity: 0.4,
+    radius: 1000
+}).addTo(mapObject)
+const queenswayCanopy = L.circle([1.2904,103.8004], {
+    color: '#1560BD',
+    fillColor: "#1560BD",
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(mapObject)
 
 
 // async function loadCarparkData(){
