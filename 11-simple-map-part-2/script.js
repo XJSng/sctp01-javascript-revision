@@ -58,8 +58,9 @@ async function renderWeatherData(weatherData){
         const lat = w.label_location.latitude
         const lng = w.label_location.longitude
         const latLng = [lat,lng]
-        console.log(latLng)
+        // console.log(latLng) test latLng
         const weatherMarker = L.marker(latLng)
+        weatherMarker.bindPopup(`<h3>${w.name}</h3>`)
         weatherMarker.addTo(markerClusterLayer)
     }
 }
