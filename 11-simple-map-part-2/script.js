@@ -16,6 +16,7 @@ markerClusterLayer.addTo(mapObject)
 // lets add a simple marker on the zoo
 const zooMarker = L.marker([1.4043, 103.7930]);
 zooMarker.addTo(mapObject);
+const mbsMarker = L.marker([1.2838,103.8591]).addTo(mapObject);
 
 // add more markers on various attractions
 const seaAquarium = L.marker([1.2583, 103.8205]).addTo(mapObject);
@@ -66,15 +67,6 @@ async function renderWeatherData(weatherData){
 }
 
 
-// async function loadCarparkAvailability(){
-//     let response = await axios.get`https://api.data.gov.sg/v1/transport/carpark-availability`
-//     const carparkData = response.data.items[0].carpark_data
-//     // return carparkData
-// }
-// // function that renders carpark data as markers
-// async function renderCarparkAvailability(){
-
-// }
 
 
 // Loads once the DOM is loaded, you can add your APIs below
