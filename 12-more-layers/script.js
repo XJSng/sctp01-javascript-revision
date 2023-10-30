@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     attractionLayerGroup.addTo(map)
     for (let attraction of attractions) {
         const marker = L.marker([attraction.latitude, attraction.longitude],);
-        marker.bindPopgiup(`<h3>${attraction.name}</h3>`)
+        marker.bindPopup(`<h3>${attraction.name}</h3>`)
         marker.addTo(attractionLayerGroup)
     }
 
@@ -54,6 +54,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         "Attractions": attractionLayerGroup,
         "Hawkers": hawkerLayerGroup
     });
+
+    // By simply adding .addOverlay() function - I am able to toggle the hawkerLayerGroup on and off
+    controls.addOverlay(hawkerLayerGroup, "Hawkers")
+    controls.addOverlay(attractionLayerGroup, "Attractions")
     controls.addTo(map)
 
 
