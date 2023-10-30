@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const map = createMap();
-    
+
     // custom food icon marker
     const foodIcon = L.icon({
         iconUrl: 'icons/chicken-rice.png',
@@ -16,28 +16,27 @@ document.addEventListener("DOMContentLoaded", async function () {
     const zooIcon = L.icon({
         iconUrl: 'icons/bird.png',
         iconSize: [50, 50],
-        iconAnchor:[22, 94],
+        iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
     })
 
+    // Not in use
     const attractionIcon = L.icon({
         iconUrl: 'icons/museum.png',
         iconSize: [50, 50],
-        iconAnchor:[22, 94],
+        iconAnchor: [22, 94],
         popupAnchor: [-3, -76]
     })
-   
+
     const attractions = await loadData("data/attractions.json");
     // Call the attraction layer group to attractions
     const attractionLayerGroup = L.markerClusterGroup();
     attractionLayerGroup.addTo(map)
     for (let attraction of attractions) {
-        const marker = L.marker([attraction.latitude, attraction.longitude], {icon:attractionIcon});
-        marker.bindPopup(`<h3>${attraction.name}</h3>`)
+        const marker = L.marker([attraction.latitude, attraction.longitude],);
+        marker.bindPopgiup(`<h3>${attraction.name}</h3>`)
         marker.addTo(attractionLayerGroup)
     }
-
-
 
     // the reason why only two functions are used is because these are repeated task
     // and it is cleaner to have similar processes run through functions. 
@@ -46,13 +45,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     const hawkerLayerGroup = L.markerClusterGroup();
     hawkerLayerGroup.addTo(map)
     for (let hawker of hawkers) {
-        const marker = L.marker([hawker.latitude, hawker.longitude], {icon:foodIcon});
+        const marker = L.marker([hawker.latitude, hawker.longitude], { icon: foodIcon });
         marker.addTo(hawkerLayerGroup)
     }
 
+    // lets add a control function
+    const controls = L.control.layers({
+        "Attractions": attractionLayerGroup,
+        "Hawkers": hawkerLayerGroup
+    });
+    controls.addTo(map)
+
 
     // Add Zoo Marker
-    const zooMarker = L.marker([1.4043, 103.7930],{icon:zooIcon})
+    const zooMarker = L.marker([1.4043, 103.7930], { icon: zooIcon })
     zooMarker.bindPopup(`<h3>This is the Singapore Zoo</h3>`)
     zooMarker.addTo(map);
 })
@@ -75,6 +81,8 @@ async function loadData(filePath) {
     const response = await axios.get(filePath)
     return response.data.locations
 }
+
+
 
 // function AddMarkersFromData(IncomingData) {
 //     const IncomingDataLayerGroup = L.clusterMarkerGroup();
