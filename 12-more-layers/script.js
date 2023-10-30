@@ -1,11 +1,39 @@
 document.addEventListener("DOMContentLoaded", async function () {
     const map = createMap();
+    
+    // custom food icon marker
+    const foodIcon = L.icon({
+        iconUrl: 'icons/chicken-rice.png',
+        iconSize: [50, 50],
+        iconAnchor: [22, 94],
+        popupAnchor: [-3, -76],
+    });
+
+    // how to add icon marker to any layer
+    // const zooMarker = L.marker([1.4043, 103.7930],{icon:zooIcon}).addTo(map)
+
+    // cusotom zoo icon marker
+    const zooIcon = L.icon({
+        iconUrl: 'icons/bird.png',
+        iconSize: [50, 50],
+        iconAnchor:[22, 94],
+        popupAnchor: [-3, -76]
+    })
+
+    const attractionIcon = L.icon({
+        iconUrl: 'icons/museum.png',
+        iconSize: [50, 50],
+        iconAnchor:[22, 94],
+        popupAnchor: [-3, -76]
+    })
+   
     const attractions = await loadData("data/attractions.json");
     // Call the attraction layer group to attractions
-    const attractionLayerGroup = L.layerGroup();
+    const attractionLayerGroup = L.markerClusterGroup();
     attractionLayerGroup.addTo(map)
     for (let attraction of attractions) {
-        const marker = L.marker([attraction.latitude, attraction.longitude]);
+        const marker = L.marker([attraction.latitude, attraction.longitude], {icon:attractionIcon});
+        marker.bindPopup(`<h3>${attraction.name}</h3>`)
         marker.addTo(attractionLayerGroup)
     }
 
@@ -15,16 +43,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     // and it is cleaner to have similar processes run through functions. 
     // Create hawker layer
     const hawkers = await loadData("data/hawkers.json");
-    const hawkerLayerGroup = L.layerGroup();
+    const hawkerLayerGroup = L.markerClusterGroup();
     hawkerLayerGroup.addTo(map)
     for (let hawker of hawkers) {
-        const marker = L.marker([hawker.latitude, hawker.longitude]);
+        const marker = L.marker([hawker.latitude, hawker.longitude], {icon:foodIcon});
         marker.addTo(hawkerLayerGroup)
     }
 
 
     // Add Zoo Marker
-    const zooMarker = L.marker([1.4043, 103.7930])
+    const zooMarker = L.marker([1.4043, 103.7930],{icon:zooIcon})
     zooMarker.bindPopup(`<h3>This is the Singapore Zoo</h3>`)
     zooMarker.addTo(map);
 })
@@ -49,21 +77,9 @@ async function loadData(filePath) {
 }
 
 // function AddMarkersFromData(IncomingData) {
-//     const IncomingDataLayerGroup = L.layerGroup();
+//     const IncomingDataLayerGroup = L.clusterMarkerGroup();
 //     for (let x of IncomingData) {
 //     const marker = L.marker ([x.latitude, x.longitude]);
 //     marker.addTo(IncomingDataLayerGroup)
 // }
 // }
-
-    // // custom marker WORK IN PROGRESS
-    // var foodIcon = L.icon({
-    //     iconUrl: 'icons/chicken-rice.png',
-    //     iconSize: [38, 95],
-    //     iconAnchor: [22, 94],
-    //     popupAnchor: [-3, -76],
-    //     shadowUrl: 'my-icon-shadow.png',
-    //     shadowSize: [68, 95],
-    //     shadowAnchor: [22, 94]
-    // });
-    // // L.marker({ icon: foodIcon }).addTo(map);
