@@ -10,9 +10,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Add code below
     const cycling = await loadJsonData("data/cycling.geojson")
     const cyclingLayer = L.geoJson(cycling, {
-        onEachFeature: function (features, layer) {
+        onEachFeature: function (feature, layer) {
             const tempElement = document.createElement("div")
-            tempElement.innerHTML = features.properties.Description
+            tempElement.innerHTML = feature.properties.Description
             const allTDs = tempElement.querySelectorAll("td")
             const cyclingPath = allTDs[0].innerHTML;
             const agency = allTDs[1].innerHTML;
@@ -25,11 +25,34 @@ document.addEventListener("DOMContentLoaded", async function () {
             weight: 4
         }
     )
-    cyclingLayer.addTo(map)
-});
 
+
+// let's load the nparks geojson file
+const nparks = await loadJsonData("data/nparksTracks.geojson")
+const nparksLayer = L.geoJson(nparks, {
+    onEachFeature:function(feature,layer){
+        const html = feature.properties.Description
+        const tempElement = document.createElement('div')
+        tempElement.innerHTML = html
+        const allTds = tempElement.querySelectorAll("td")
+        const nparksName = allTds[0].innerHTML;
+        const nparksType = allTds[1].innerHTML;
+        layer.bindPopup(`<h2>${nparksName}</h2><p><b>Park Type: </b>${nparksType}<p>`)
+    }
+})
+  nparksLayer.setStyle(
+        {
+            color: "green",
+            weight: 4
+        })
 
 async function loadJsonData(filePath) {
     const response = await axios.get(filePath)
     return response.data
 }
+
+cyclingLayer.addTo(map)
+nparksLayer.addTo(map)
+    
+});
+
