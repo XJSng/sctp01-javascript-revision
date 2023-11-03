@@ -8,6 +8,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     }).addTo(map);
 
     // Add code below
+const zooMarker = L.marker([1.4043, 103.7930]).addTo(map)
+
+
     const cycling = await loadJsonData("data/cycling.geojson")
     const cyclingLayer = L.geoJson(cycling, {
         onEachFeature: function (feature, layer) {
@@ -42,8 +45,8 @@ const nparksLayer = L.geoJson(nparks, {
 })
   nparksLayer.setStyle(
         {
-            color: "green",
-            weight: 4
+            color: "darkgreen",
+            weight: 3
         })
 
 async function loadJsonData(filePath) {
@@ -53,6 +56,14 @@ async function loadJsonData(filePath) {
 
 cyclingLayer.addTo(map)
 nparksLayer.addTo(map)
+
+
+// add a layer group
+const overlays = {
+    "Cycling Paths": cyclingLayer,
+    "NParks Trails": nparksLayer
+}
+L.control.layers(overlays).addTo(map)
     
 });
 
